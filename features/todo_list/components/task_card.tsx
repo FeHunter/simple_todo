@@ -11,7 +11,7 @@ export function TaskCardComponent ( item : Task ) {
                 gap: 10,
                 padding: 10, margin: 5,
                 borderRadius: 8,
-                minHeight: 50,
+                minHeight: 80,
                 backgroundColor: colors.main,
             }}
         >
@@ -19,6 +19,8 @@ export function TaskCardComponent ( item : Task ) {
                 style={{
                     fontSize: 14,
                     color: colors.textWhite,
+                    wordWrap: 'wrap',
+                    width: '85%',
                 }}
             >
                 {item.name}
@@ -26,7 +28,7 @@ export function TaskCardComponent ( item : Task ) {
 
             <View
                 style={{
-                    flexDirection: 'row',
+                    flexDirection: 'column',
                     gap: 10
                 }}
             >
@@ -45,7 +47,9 @@ export function TaskCardComponent ( item : Task ) {
                         backgroundColor: colors.notDone
                     }}
                     >
-                        <Text style={{ textAlign: 'center' }} >X</Text>
+                        <Text
+                            style={{ textAlign: 'center' }}
+                        >X</Text>
                     </View>
                 </Pressable>
             </View>

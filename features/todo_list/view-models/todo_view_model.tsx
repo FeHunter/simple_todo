@@ -50,6 +50,8 @@ export function useTodoViewModel () {
         let upt = list;
         upt[index].done = !upt[index].done
         setList(upt)
+
+        repository.saveTasks(upt)
     }
 
     const removeTask = async (taskName: string) => {

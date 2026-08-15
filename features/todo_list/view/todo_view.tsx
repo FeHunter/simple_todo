@@ -30,29 +30,25 @@ export function TodoView () {
         <SafeAreaView
             style={{
                 position: 'relative',
-                padding: 1,
-                gap: 10,
+                rowGap: 30,
                 height: '100%', width: '100%',
                 backgroundColor: colors.main,
-                alignItems: 'center'
+                alignItems: 'center',
+                paddingBottom: 10,
             }}
         >
             {/* Header */}
             <View
                 style={{
                     alignItems: 'center', justifyContent: 'space-between',
-                    padding: 5,
-                    width: '100%'
+                    width: '90%',
+                    rowGap: 30,
+                    paddingTop: 30,
                 }}
             >
-
-                <Text style={{ fontSize: 20, textAlign: 'center', color: colors.textWhite }} >
-                    To-Do
-                </Text>
-
                 <View style={{
                     flexDirection: 'row',
-                    flexGrow: 1, gap: 5,
+                    flexGrow: 1, gap: 10,
                     width: '100%'
                 }} >
 
@@ -60,7 +56,7 @@ export function TodoView () {
                         style={{
                             padding: 10, margin: 'auto',
                             borderRadius: 10, borderWidth: 0,
-                            width: '95%',
+                            flexGrow: 1,
                             backgroundColor: colors.background, outlineColor: colors.background, outlineWidth: 0, outlineOffset: 0,
                             color: colors.textWhite
                         }}

@@ -60,6 +60,7 @@ export function TodoRepository () {
     return {
         getTaks,
         addTask,
-        deleteTask
+        deleteTask,
+        saveTasks
     }
 }
