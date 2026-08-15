@@ -1,6 +1,9 @@
-import { useEffect, useState } from "react"
+import colors from "@/constants/colors"
+import { useState } from "react"
 import { FlatList, Pressable, Text, TextInput, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
+import { TaskCardComponent } from "../components/task_card"
+import { Task } from "../model/item_model"
 import { useTodoViewModel } from "../view-models/todo_view_model"
 
 export function TodoView () {
@@ -8,31 +11,19 @@ export function TodoView () {
     const view_model = useTodoViewModel()
     const task_list = view_model.list
 
-    const colors = {
-        main: '#313533',
-        segundary: '#575e5b',
-        textWhite: 'white',
-        textDark: '#344979',
-        background: '#242725',
-        done: 'green',
-        notDone: '#575e5b'
-    }
-    const [loading, setLoading] = useState(false)
     const [text, setText] = useState('')
 
-    useEffect(()=>{
-        if (loading){
-            setTimeout(() => {
-                setLoading(false)
-            }, 100);
-        }
-    },[loading])
-
     const handleAddTask = () => {
-        const addToList = view_model.addToList({ name: text, done: false })
-        if (!addToList) alert('Nome para a tarefa curto ou invalido.')
+        view_model.addToList(new Task(text, text, false))
         setText('')
-        setLoading(true)
+    }
+
+    const handleToggleDone = (index: number) => {
+        view_model.setTaskAsDone(index)
+    }
+
+    const handleDeleteTask = async (taskName: string) => {
+        await view_model.removeTask(taskName)
     }
 
     return (
@@ -50,18 +41,18 @@ export function TodoView () {
             <View
                 style={{
                     alignItems: 'center', justifyContent: 'space-between',
-                    padding: 10,
+                    padding: 5,
                     width: '100%'
                 }}
             >
 
-                <Text style={{ fontSize: 20, textAlign: 'center', margin: 2, color: colors.textWhite }} >
+                <Text style={{ fontSize: 20, textAlign: 'center', color: colors.textWhite }} >
                     To-Do
                 </Text>
 
                 <View style={{
                     flexDirection: 'row',
-                    flexGrow: 1, gap: 10,
+                    flexGrow: 1, gap: 5,
                     width: '100%'
                 }} >
 
@@ -81,8 +72,8 @@ export function TodoView () {
                     <Pressable
                         onPress={handleAddTask}
                         style={{
-                            backgroundColor: colors.segundary, padding: 20, borderRadius: 50,
-                            width: 20, height: 20,
+                            backgroundColor: colors.segundary, borderRadius: 50,
+                            paddingLeft: 13, paddingRight: 13,
                             justifyContent: 'center', alignItems: 'center',
                         }}
                     >
@@ -107,36 +98,13 @@ export function TodoView () {
                     data={task_list}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item, index }) => (
-                        <Pressable
-                            style={{
-                                flexDirection: 'row', alignItems: 'center',
-                                gap: 10,
-                                padding: 10, margin: 5,
-                                borderRadius: 8,
-                                minHeight: 50,
-                                backgroundColor: colors.main,
-                            }}
-                            onPress={()=>{
-                                view_model.setTaskAsDone(index)
-                                setLoading(true)
-                            }}
-                        >
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }} >
-                                <Text
-                                    style={{
-                                        fontSize: 14,
-                                        color: colors.textWhite,
-                                    }}
-                                >
-                                    {item.name}
-                                </Text>
-                                <View style={{
-                                    width: 20, height: 20, borderRadius: 50,
-                                    backgroundColor: item.done ? colors.done : colors.notDone,
-                                }}
-                                ></View>
-                            </View>
-                        </Pressable>
+                        <TaskCardComponent
+                            id={item.name}
+                            name={item.name}
+                            done={item.done}
+                            toggleDone={()=>{ handleToggleDone(index) }}
+                            deleteTask={()=>{ handleDeleteTask(item.name) }}
+                        />
                     )}
                 />
             </View>

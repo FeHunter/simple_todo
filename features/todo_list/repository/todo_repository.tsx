@@ -1,9 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-type Item = {
-    name: string
-    done: boolean
-}
+import { Task } from '../model/item_model';
 
 export function TodoRepository () {
 
@@ -16,10 +12,17 @@ export function TodoRepository () {
             return []
         }
 
-        return JSON.parse(data)
+        const tasks = JSON.parse(data).map(
+            (task: Task) => new Task(
+                task.id,
+                task.name,
+                task.done
+            )
+        )
+        return tasks
     }
 
-    const saveTasks = async (tasks: Array<Item>) => {
+    const saveTasks = async (tasks: Array<Task>) => {
         await AsyncStorage.setItem(
             STORAGE_KEY,
             JSON.stringify(tasks)
@@ -43,9 +46,11 @@ export function TodoRepository () {
             STORAGE_KEY,
             JSON.stringify(updatedTasks)
         )
+
+        return true // ok
     }
 
-    const addTask = async (task: object) => {
+    const addTask = async (task: Task) => {
         const tasks = await getTaks()
         tasks.push(task)
 
