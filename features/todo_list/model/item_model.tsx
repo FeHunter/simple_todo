@@ -8,4 +8,6 @@ export class Task {
     toggleDone () { }
 
     deleteTask () {}
+
+    editTask (task: Task) {}
 }

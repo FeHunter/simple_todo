@@ -1,27 +1,29 @@
 import colors from "@/constants/colors"
 import { useState } from "react"
-import { FlatList, Pressable, Text, TextInput, View } from "react-native"
+import { FlatList, Pressable, Text, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { TaskCardComponent } from "../components/task_card"
+import { TextInputComponent } from "../components/text_input"
 import { Task } from "../model/item_model"
 import { useTodoViewModel } from "../view-models/todo_view_model"
+import { EditTaskView } from "./edit_task_view"
 
 export function TodoView () {
 
     const view_model = useTodoViewModel()
     const task_list = view_model.list
+    const task_on_edit = view_model.editTask
 
     const [text, setText] = useState('')
 
+    // Model-View handle
     const handleAddTask = () => {
         view_model.addToList(new Task(text, text, false))
         setText('')
     }
-
     const handleToggleDone = (index: number) => {
         view_model.setTaskAsDone(index)
     }
-
     const handleDeleteTask = async (taskName: string) => {
         await view_model.removeTask(taskName)
     }
@@ -52,17 +54,10 @@ export function TodoView () {
                     width: '100%'
                 }} >
 
-                    <TextInput
-                        style={{
-                            padding: 10, margin: 'auto',
-                            borderRadius: 10, borderWidth: 0,
-                            flexGrow: 1,
-                            backgroundColor: colors.background, outlineColor: colors.background, outlineWidth: 0, outlineOffset: 0,
-                            color: colors.textWhite
-                        }}
-                        placeholder="Task..."
-                        onChangeText={(value) => setText(value)}
-                        value={text}
+                    <TextInputComponent
+                        placeholder="Task name..."
+                        readValue={(value)=>{ setText(value) }}
+                        setText={text}
                     />
                     
                     <Pressable
@@ -80,6 +75,7 @@ export function TodoView () {
 
             </View>
 
+            {/* LIST CONTENT */}
             <View
                 style={{
                     flex: 1,
@@ -100,10 +96,21 @@ export function TodoView () {
                             done={item.done}
                             toggleDone={()=>{ handleToggleDone(index) }}
                             deleteTask={()=>{ handleDeleteTask(item.name) }}
+                            editTask={()=>{ view_model.setTaskToEdit(item) }}
                         />
                     )}
                 />
             </View>
+
+            {/* EDIT TASK CONTENT */}
+            { task_on_edit &&
+                <EditTaskView
+                    item={task_on_edit}
+                    onClose={() => {
+                        view_model.setEditTaskNull();
+                    }}
+                />
+            }
 
         </SafeAreaView>
     )

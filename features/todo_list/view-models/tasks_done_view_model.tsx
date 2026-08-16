@@ -8,16 +8,18 @@ export function TasksDoneViewModel () {
 
     const [list, setList] = useState<Task[]>([])
 
-    useEffect(()=>{
+    useEffect(() => {
         loadCompletedTasks()
-    },[])
+    }, [])
 
     const loadCompletedTasks = async () => {
         const res_data = await repository.getTaks()
-        setList(res_data)
+        const completed = res_data.filter((item : Task) => item.done == true)
+        console.log('completed: ', completed)
+        setList(completed)
     }
 
     return {
-        list,
+        list
     }
 }

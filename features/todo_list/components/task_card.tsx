@@ -2,7 +2,6 @@ import colors from "@/constants/colors";
 import { Pressable, Text, View } from "react-native";
 import { Task } from "../model/item_model";
 
-
 export function TaskCardComponent ( item : Task ) {
     return (
         <View
@@ -15,16 +14,28 @@ export function TaskCardComponent ( item : Task ) {
                 backgroundColor: colors.main,
             }}
         >
-            <Text
+            
+            {/* Task name + Edit button */}
+            <Pressable
                 style={{
-                    fontSize: 14,
-                    color: colors.textWhite,
-                    wordWrap: 'wrap',
-                    width: '85%',
+                    width: '85%', height: '100%',
+                }}
+                onPress={()=>{
+                    item.editTask()
                 }}
             >
-                {item.name}
-            </Text>
+                <Text
+                    style={{
+                        fontSize: 14,
+                        color: colors.textWhite,
+                        wordWrap: 'wrap',
+                        width: '85%', height: '100%',
+                        alignContent: 'center',
+                    }}
+                >
+                    {item.name}
+                </Text>
+            </Pressable>
 
             <View
                 style={{

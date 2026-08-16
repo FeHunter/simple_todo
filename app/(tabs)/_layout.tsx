@@ -1,7 +1,5 @@
-import { IconSymbol } from '@/components/ui/icon-symbol';
 import colors from '@/constants/colors';
 import { Tabs } from 'expo-router';
-import React from 'react';
 
 export default function TabLayout() {
   return (
@@ -22,6 +20,7 @@ export default function TabLayout() {
         tabBarActiveTintColor: colors.textWhite,
         tabBarStyle: {
           height: 'auto',
+          minHeight: 50,
           backgroundColor: colors.main,
           borderColor: colors.main,
           borderWidth: 0,
@@ -32,26 +31,12 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Taks to-do',
-          tabBarIcon: ({ color }) => (
-            <IconSymbol
-                size={24}
-                name="checklist"
-                color={color}
-            />
-        )
         }}
       />
       <Tabs.Screen
         name="tasksDone"
         options={{
           title: 'Taks Done',
-          tabBarIcon: ({ color }) => (
-            <IconSymbol
-                size={24}
-                name="circle.badge.questionmark.fill"
-                color={color}
-            />
-        )
         }}
       />
     </Tabs>

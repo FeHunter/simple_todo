@@ -6,8 +6,10 @@ import { TodoRepository } from "../repository/todo_repository"
 export function useTodoViewModel () {
 
     const repository = TodoRepository()
-    const [list, setList] = useState<Task[]>([])
+    
     const [loading, setLoading] = useState(false)
+    const [list, setList] = useState<Task[]>([])
+    const [editTask, setEditTask] = useState<Task>()
 
 
     useEffect(()=>{
@@ -67,11 +69,22 @@ export function useTodoViewModel () {
         alert(`Something went wrong, try again.`)
     }
 
+    const setTaskToEdit = (task: Task) => {
+        setEditTask(task)
+        console.log('Task to edit: ', task)
+    }
+    const setEditTaskNull = () => {
+        setEditTask(undefined)
+    }
+
     return {
         loading,
         list,
+        editTask,
         addToList,
         setTaskAsDone,
-        removeTask
+        removeTask,
+        setTaskToEdit,
+        setEditTaskNull
     }
 }
