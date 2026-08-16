@@ -4,7 +4,6 @@ import { FlatList, Pressable, Text, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { TaskCardComponent } from "../components/task_card"
 import { TextInputComponent } from "../components/text_input"
-import { Task } from "../model/item_model"
 import { useTodoViewModel } from "../view-models/todo_view_model"
 import { EditTaskView } from "./edit_task_view"
 
@@ -16,16 +15,17 @@ export function TodoView () {
 
     const [text, setText] = useState('')
 
+    
     // Model-View handle
     const handleAddTask = () => {
-        view_model.addToList(new Task(text, text, false))
+        view_model.addToList(text)
         setText('')
     }
     const handleToggleDone = (index: number) => {
         view_model.setTaskAsDone(index)
     }
-    const handleDeleteTask = async (taskName: string) => {
-        await view_model.removeTask(taskName)
+    const handleDeleteTask = async (taskID: string) => {
+        await view_model.removeTask(taskID)
     }
 
     return (
@@ -91,12 +91,12 @@ export function TodoView () {
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item, index }) => (
                         <TaskCardComponent
-                            id={item.name}
+                            id={item.id}
                             name={item.name}
                             done={item.done}
                             toggleDone={()=>{ handleToggleDone(index) }}
-                            deleteTask={()=>{ handleDeleteTask(item.name) }}
-                            editTask={()=>{ view_model.setTaskToEdit(item) }}
+                            deleteTask={()=>{ handleDeleteTask(item.id) }}
+                            editTask={(current_item)=>{ view_model.setTaskToEdit(current_item) }}
                         />
                     )}
                 />
@@ -106,6 +106,9 @@ export function TodoView () {
             { task_on_edit &&
                 <EditTaskView
                     item={task_on_edit}
+                    saveEdition={(editedItem) => {
+                        view_model.SaveEditedTask(editedItem)
+                    }}
                     onClose={() => {
                         view_model.setEditTaskNull();
                     }}

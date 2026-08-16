@@ -9,11 +9,13 @@ export function useTodoViewModel () {
     
     const [loading, setLoading] = useState(false)
     const [list, setList] = useState<Task[]>([])
+    const [listCompletedTasks, setlistCompletedTasks] = useState<Task[]>([])
     const [editTask, setEditTask] = useState<Task>()
 
 
     useEffect(()=>{
         loadTaks();
+        getTasksCompleted();
     },[])
     useEffect(()=>{
         if (loading){
@@ -22,69 +24,108 @@ export function useTodoViewModel () {
             }, 500);
         }
     },[loading])
+    useEffect(()=>{
+        getTasksCompleted()
+    },[loading, list])
 
 
     const loadTaks = async () => {
-        const r = await repository.getTaks()
-        setList(r)
-    }
-
-    const addToList = (item: Task) => {
-        
-        setLoading(true) // start loading
-
-        if (item.name == '' && item.name.length < 3) {
-            alert('Task name is too short or invalid, try again.')
-            return
+        try {
+            const r = await repository.getTasks()
+            setList(r)
+        }finally {
+            setLoading(true)
         }
-        setList((prev) => [...prev, item])
-
-        // save data
-        repository.addTask(item)
-
-        alert(`${item.name} was added to the list.`)
     }
 
-    const setTaskAsDone = (index: number) => {
-        
-        setLoading(true) // start loading
+    const addToList = (taskName: string) => {
+        try {
+            if (taskName == '' && taskName.length < 3) {
+                alert('Task name is too short or invalid, try again.')
+                return
+            }
 
-        let upt = list;
-        upt[index].done = !upt[index].done
-        setList(upt)
+            // create task item
+            const now = new Date().getMilliseconds().toString();
+            const item_id = `${taskName}_${now}`
+            const item = new Task(item_id, taskName, false)
 
-        repository.saveTasks(upt)
-    }
+            setList((prev) => [...prev, item])
 
-    const removeTask = async (taskName: string) => {
-        
-        setLoading(true) // start loading
+            // save data
+            repository.addTask(item)
 
-        const deleted = await repository.deleteTask(taskName)
-        if (deleted === true){
-            alert(`${taskName} was removed from the list.`)
-            loadTaks();
-            return
+            alert(`${item.name} was added to the list.`)
+        }catch (err: Error | any) {
+            alert('Something went wrong, try again.')
+        }finally {
+            setLoading(true) // start loading
         }
-        alert(`Something went wrong, try again.`)
+    }
+
+    const setTaskAsDone = async (index: number) => {
+        try {
+            let upt = list;
+            upt[index].done = !upt[index].done
+            await repository.saveTasks(upt)
+            setList(upt)
+        }finally {
+            setLoading(true) // start loading
+        }
+    }
+
+    const removeTask = async (taskID: string) => {
+        try {
+            const upt_list = list.filter((item : Task) => item.id != taskID)
+            await repository.saveTasks(upt_list)
+            setList(upt_list)
+
+        }finally {
+            setLoading(true) // start loading
+        }
     }
 
     const setTaskToEdit = (task: Task) => {
         setEditTask(task)
-        console.log('Task to edit: ', task)
     }
+
     const setEditTaskNull = () => {
         setEditTask(undefined)
+    }
+
+    const SaveEditedTask = async (task: Task) => {
+
+        let upt_list = list
+        const index = upt_list.findIndex((item: Task) => item.id == task.id)
+
+        if (index !== -1){
+            upt_list[index] = task
+            try {
+                await repository.saveTasks(upt_list)
+                setList(upt_list)
+            }finally {
+                setLoading(true)
+            }
+        }else {
+            alert('Task not found, delete it and try again.')
+        }
+    }
+
+    const getTasksCompleted = () => {
+        const completed_tasks = list.filter((item) => item.done == true)
+        setlistCompletedTasks(completed_tasks)
     }
 
     return {
         loading,
         list,
+        listCompletedTasks,
         editTask,
         addToList,
         setTaskAsDone,
         removeTask,
         setTaskToEdit,
-        setEditTaskNull
+        setEditTaskNull,
+        SaveEditedTask,
     }
 }

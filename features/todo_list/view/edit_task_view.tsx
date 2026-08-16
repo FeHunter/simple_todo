@@ -8,14 +8,19 @@ import { Task } from "../model/item_model";
 
 type IEditTaskView = {
     item: Task,
-    onClose: ()=>void
+    onClose: ()=>void,
+    saveEdition: (item: Task)=>void,
 }
 
 export function EditTaskView ( edit: IEditTaskView ) {
 
-    const [text, setText] = useState('')
+    const [text, setText] = useState( edit?.item.name || '')
 
-    const cancelEdit = () => {
+    const handleSaveEdition = () => {
+        edit.saveEdition(new Task( edit.item.id, text, edit.item.done ))
+        edit.onClose()
+    }
+    const handleCancelEdit = () => {
         edit.onClose()
     }
 
@@ -53,17 +58,17 @@ export function EditTaskView ( edit: IEditTaskView ) {
 
                     <TextInputComponent
                         placeholder={`new task name...`}
-                        readValue={(value: string)=>{ console.log(value) }}
+                        readValue={(value: string)=>{ setText(value) }}
                         setText={text}
                     />
                     
                     <Button
-                        label="Save"
-                        onPress={()=>{  }}
+                        label="Update task"
+                        onPress={()=> handleSaveEdition() }
                     />
                     <Button
                         label="Cancel"
-                        onPress={()=> cancelEdit() }
+                        onPress={()=> handleCancelEdit() }
                     />
                     
                 </View>

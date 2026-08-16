@@ -4,13 +4,13 @@ import { TextInput } from "react-native";
 
 type ITextInput = {
     placeholder: string,
-    readValue: (value: string) => string,
+    readValue: (value: string) => void,
     setText: string,
 }
 
 export function TextInputComponent ( input: ITextInput ) {
 
-    const [text, setText] = useState('')
+    const [text, setText] = useState(input.setText || '')
 
     useEffect(()=>{
         readValueText()

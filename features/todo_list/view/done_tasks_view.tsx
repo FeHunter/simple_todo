@@ -1,25 +1,14 @@
 import colors from "@/constants/colors";
-import { useEffect, useState } from "react";
 import { FlatList, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CompletedTaskCard } from "../components/completed_task_card";
-import { Task } from "../model/item_model";
-import { TasksDoneViewModel } from "../view-models/tasks_done_view_model";
+import { useTodoViewModel } from "../view-models/todo_view_model";
 
 export function DoneTasksView () {
 
-    const view_model = TasksDoneViewModel()
-    const doneTasks = view_model.list;
+    const view_model = useTodoViewModel()
+    const doneTasks = view_model.listCompletedTasks;
 
-    // Fixing state error
-    const [completedTasks, setCompletedTasks] = useState<Task[]>([])
-    useEffect(()=>{
-        get()
-    },[doneTasks])
-    const get = () => {
-        setCompletedTasks(doneTasks)
-    }
-    
     return (
         <SafeAreaView
             style={{
@@ -40,15 +29,16 @@ export function DoneTasksView () {
                 }}
             >
                 <FlatList
-                    data={completedTasks}
+                    data={doneTasks}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item, index }) => (
                         <CompletedTaskCard
-                            id={item.name}
+                            id={item.id}
                             name={item.name}
                             done={item.done}
                             toggleDone={()=>{ }}
                             deleteTask={()=>{ }}
+                            editTask={()=>{  }}
                         />
                     )}
                 />

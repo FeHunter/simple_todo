@@ -5,7 +5,7 @@ export function TodoRepository () {
 
     const STORAGE_KEY = '@tasks'
 
-    const getTaks = async () => {
+    const getTasks = async () => {
         const data = await AsyncStorage.getItem(STORAGE_KEY)
 
         if (!data) {
@@ -29,38 +29,15 @@ export function TodoRepository () {
         )
     }
 
-    const deleteTask = async (taskName: string) => {
-        const data = await AsyncStorage.getItem(STORAGE_KEY)
-
-        if (!data) {
-            return
-        }
-
-        const tasks = JSON.parse(data)
-
-        const updatedTasks = tasks.filter(
-            (task: { name: string }) => task.name !== taskName
-        )
-
-        await AsyncStorage.setItem(
-            STORAGE_KEY,
-            JSON.stringify(updatedTasks)
-        )
-
-        return true // ok
-    }
-
     const addTask = async (task: Task) => {
-        const tasks = await getTaks()
+        const tasks = await getTasks()
         tasks.push(task)
-
         await saveTasks(tasks)
     }
 
     return {
-        getTaks,
+        getTasks,
         addTask,
-        deleteTask,
-        saveTasks
+        saveTasks,
     }
 }

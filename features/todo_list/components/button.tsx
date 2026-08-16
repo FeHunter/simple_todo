@@ -10,13 +10,10 @@ export function Button(button: IButton) {
     return (
         <Pressable
             style={{
-                borderWidth: 1,
-                borderRadius: 10,
-                padding: 2,
-                margin: 2,
+                borderWidth: 1, borderRadius: 10, borderColor: colors.main,
+                padding: 2, margin: 2,
                 backgroundColor: colors.main,
-                width: 'auto',
-                minHeight: 40,
+                width: 'auto', minHeight: 40,
                 justifyContent: 'center',
                 alignItems: 'center'
             }}

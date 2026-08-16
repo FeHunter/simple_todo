@@ -3,6 +3,17 @@ import { Pressable, Text, View } from "react-native";
 import { Task } from "../model/item_model";
 
 export function TaskCardComponent ( item : Task ) {
+
+    const handleToggleIsDone = () => {
+        item.toggleDone()
+    }
+    const handleEditTask = () => {
+        item.editTask(item)
+    }
+    const handleDeleteTask = () => {
+        item.deleteTask()
+    }
+
     return (
         <View
             style={{
@@ -10,7 +21,6 @@ export function TaskCardComponent ( item : Task ) {
                 gap: 10,
                 padding: 10, margin: 5,
                 borderRadius: 8,
-                minHeight: 80,
                 backgroundColor: colors.main,
             }}
         >
@@ -20,9 +30,7 @@ export function TaskCardComponent ( item : Task ) {
                 style={{
                     width: '85%', height: '100%',
                 }}
-                onPress={()=>{
-                    item.editTask()
-                }}
+                onPress={handleEditTask}
             >
                 <Text
                     style={{
@@ -44,7 +52,7 @@ export function TaskCardComponent ( item : Task ) {
                 }}
             >
                 {/* Toggle Done */}
-                <Pressable onPress={item.toggleDone} >
+                <Pressable onPress={handleToggleIsDone} >
                     <View style={{
                         width: 20, height: 20, borderRadius: 50,
                         backgroundColor: item.done ? colors.done : colors.notDone,
@@ -52,7 +60,7 @@ export function TaskCardComponent ( item : Task ) {
                     ></View>
                 </Pressable>
                 {/* Delete Task */}
-                <Pressable onPress={item.deleteTask} >
+                <Pressable onPress={handleDeleteTask} >
                     <View style={{
                         width: 20, height: 20, borderRadius: 2,
                         backgroundColor: colors.notDone
