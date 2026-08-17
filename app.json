@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "scheme": "simpletodo",
     "userInterfaceStyle": "automatic",
+    "icon": "./assets/images/icon.png",
 
     "ios": {
       "supportsTablet": true

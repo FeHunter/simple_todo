@@ -58,6 +58,10 @@ export function TodoView () {
                         placeholder="Task name..."
                         readValue={(value)=>{ setText(value) }}
                         setText={text}
+                        onSubmit={(value) => {
+                            setText(value)
+                            handleAddTask()
+                        }}
                     />
                     
                     <Pressable

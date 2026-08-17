@@ -1,4 +1,6 @@
 import colors from "@/constants/colors";
+import { useFocusEffect } from "expo-router";
+import { useCallback } from "react";
 import { FlatList, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CompletedTaskCard } from "../components/completed_task_card";
@@ -8,6 +10,14 @@ export function DoneTasksView () {
 
     const view_model = useTodoViewModel()
     const doneTasks = view_model.listCompletedTasks;
+
+    // Reload on tab focus
+    useFocusEffect (
+        useCallback(()=>{
+            view_model.getTasksCompleted()
+        }, [])
+    )
+
 
     return (
         <SafeAreaView
@@ -28,20 +38,22 @@ export function DoneTasksView () {
                     width: '95%'
                 }}
             >
-                <FlatList
-                    data={doneTasks}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item, index }) => (
-                        <CompletedTaskCard
-                            id={item.id}
-                            name={item.name}
-                            done={item.done}
-                            toggleDone={()=>{ }}
-                            deleteTask={()=>{ }}
-                            editTask={()=>{  }}
-                        />
-                    )}
-                />
+                { (!view_model.loading && doneTasks) &&
+                    <FlatList
+                        data={doneTasks}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item, index }) => (
+                            <CompletedTaskCard
+                                id={item.id}
+                                name={item.name}
+                                done={item.done}
+                                toggleDone={()=>{ }}
+                                deleteTask={()=>{ }}
+                                editTask={()=>{  }}
+                            />
+                        )}
+                    />
+                }
             </View>
         </SafeAreaView>
     )

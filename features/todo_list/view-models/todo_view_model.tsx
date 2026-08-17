@@ -9,7 +9,7 @@ export function useTodoViewModel () {
     
     const [loading, setLoading] = useState(false)
     const [list, setList] = useState<Task[]>([])
-    const [listCompletedTasks, setlistCompletedTasks] = useState<Task[]>([])
+    const [listCompletedTasks, setListCompletedTasks] = useState<Task[]>([])
     const [editTask, setEditTask] = useState<Task>()
 
 
@@ -21,14 +21,11 @@ export function useTodoViewModel () {
         if (loading){
             setTimeout(() => {
                 setLoading(false)
-            }, 500);
+            }, 200);
         }
     },[loading])
-    useEffect(()=>{
-        getTasksCompleted()
-    },[loading, list])
 
-
+    
     const loadTaks = async () => {
         try {
             const r = await repository.getTasks()
@@ -111,9 +108,15 @@ export function useTodoViewModel () {
         }
     }
 
-    const getTasksCompleted = () => {
-        const completed_tasks = list.filter((item) => item.done == true)
-        setlistCompletedTasks(completed_tasks)
+    const getTasksCompleted = async () => {
+        try {
+            setLoading(true)
+            const data = await repository.getTasks()
+            const completed_tasks = data.filter((item : Task) => item.done == true)
+            setListCompletedTasks(completed_tasks)
+        }finally {
+            setLoading(false)
+        }
     }
 
     return {
@@ -127,5 +130,6 @@ export function useTodoViewModel () {
         setTaskToEdit,
         setEditTaskNull,
         SaveEditedTask,
+        getTasksCompleted,
     }
 }

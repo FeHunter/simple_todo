@@ -1,50 +1,80 @@
-# Welcome to your Expo app 👋
+# Felipe Hunter's Note Pad
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Aplicativo de lista de tarefas desenvolvido com **React Native + Expo**, utilizando a arquitetura **MVVM (Model-View-ViewModel)** e gerenciamento de estado através dos Hooks do React.
 
-## Get started
+O projeto foi desenvolvido como um estudo prático de arquitetura de software, gerenciamento de estados, persistência de dados e desenvolvimento mobile.
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+## Sobre o projeto
 
-2. Start the app
+O **Felipe Hunter's Note Pad** é uma aplicação simples de gerenciamento de tarefas (To-do List).
 
-   ```bash
-   npx expo start
-   ```
+O usuário pode:
 
-In the output, you'll find options to open the app in a
+- Adicionar tarefas
+- Editar tarefas
+- Marcar tarefas como concluídas
+- Alterar o estado de uma tarefa
+- Remover tarefas
+- Visualizar tarefas pendentes
+- Visualizar tarefas concluídas
+- Atualizar os dados ao retornar para uma Tab
+- Adicionar tarefas utilizando o botão "Done" do teclado
+- Utilizar navegação por Tabs
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Tecnologias
 
-## Get a fresh project
+### Frontend / Mobile
 
-When you're ready, run:
+- **React Native**
+- **Expo**
+- **Expo Router**
+- **TypeScript**
+- **React Navigation**
+- **React Hooks**
+- **@expo/vector-icons**
 
-```bash
-npm run reset-project
-```
+### Arquitetura
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+- **MVVM**
+- Repository Pattern
+- Separação entre View, ViewModel, Model e Repository
 
-## Learn more
+### Build
 
-To learn more about developing your project with Expo, look at the following resources:
+- **EAS Build**
+- Android APK
+- Expo Go
+- Development Build
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+---
 
-## Join the community
+# Arquitetura
 
-Join our community of developers creating universal apps.
+O projeto utiliza a arquitetura **MVVM (Model-View-ViewModel)**.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```text
+                 ┌───────────────┐
+                 │     View      │
+                 │    (React)    │
+                 └───────┬───────┘
+                         │
+                         ▼
+                 ┌───────────────┐
+                 │  ViewModel    │
+                 │   (Hooks)     │
+                 └───────┬───────┘
+                         │
+                         ▼
+                 ┌───────────────┐
+                 │  Repository   │
+                 └───────┬───────┘
+                         │
+                         ▼
+                 ┌───────────────┐
+                 │  Persistence  │
+                 │ / Data Source │
+                 └───────────────┘

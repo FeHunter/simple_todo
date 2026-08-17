@@ -1,4 +1,5 @@
 import colors from '@/constants/colors';
+import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 
 export default function TabLayout() {
@@ -18,9 +19,10 @@ export default function TabLayout() {
           borderWidth: 0,
         },
         tabBarActiveTintColor: colors.textWhite,
+        tabBarInactiveTintColor: colors.notDone,
         tabBarStyle: {
           height: 'auto',
-          minHeight: 50,
+          minHeight: 60,
           backgroundColor: colors.main,
           borderColor: colors.main,
           borderWidth: 0,
@@ -30,13 +32,28 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Taks to-do',
+          title: 'Tasks',
+          tabBarIcon: ({ color, size }) => (
+              <Ionicons
+                  name="list"
+                  size={size}
+                  color={color}
+              />
+          ),
         }}
+        
       />
       <Tabs.Screen
         name="tasksDone"
         options={{
-          title: 'Taks Done',
+          title: 'Done',
+          tabBarIcon: ({ color, size }) => (
+              <Ionicons
+                  name="checkmark-done"
+                  size={size}
+                  color={color}
+              />
+          ),
         }}
       />
     </Tabs>

@@ -1,8 +1,13 @@
 import colors from "@/constants/colors";
+import { Ionicons } from '@expo/vector-icons';
 import { Pressable, Text, View } from "react-native";
 import { Task } from "../model/item_model";
 
 export function TaskCardComponent ( item : Task ) {
+
+    const _btnStyle = {
+        size: 30
+    }
 
     const handleToggleIsDone = () => {
         item.toggleDone()
@@ -19,9 +24,10 @@ export function TaskCardComponent ( item : Task ) {
             style={{
                 flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
                 gap: 10,
-                padding: 10, margin: 5,
+                padding: 10, margin: 2,
                 borderRadius: 8,
                 backgroundColor: colors.main,
+                maxHeight: 100,
             }}
         >
             
@@ -29,6 +35,7 @@ export function TaskCardComponent ( item : Task ) {
             <Pressable
                 style={{
                     width: '85%', height: '100%',
+                    maxHeight: 80,
                 }}
                 onPress={handleEditTask}
             >
@@ -38,7 +45,7 @@ export function TaskCardComponent ( item : Task ) {
                         color: colors.textWhite,
                         wordWrap: 'wrap',
                         width: '85%', height: '100%',
-                        alignContent: 'center',
+                        textAlignVertical: 'center',
                     }}
                 >
                     {item.name}
@@ -48,27 +55,40 @@ export function TaskCardComponent ( item : Task ) {
             <View
                 style={{
                     flexDirection: 'column',
-                    gap: 10
+                    justifyContent: 'space-between', gap: 5,
+                    height: '100%',
                 }}
             >
                 {/* Toggle Done */}
                 <Pressable onPress={handleToggleIsDone} >
                     <View style={{
-                        width: 20, height: 20, borderRadius: 50,
-                        backgroundColor: item.done ? colors.done : colors.notDone,
+                        width: _btnStyle.size, height: _btnStyle.size, borderRadius: 50,
                     }}
-                    ></View>
+                    >
+                        <Ionicons
+                            name="checkmark-circle-sharp"
+                            size={_btnStyle.size}
+                            color={item.done ? colors.done : colors.notDone}
+                        />
+                    </View>
                 </Pressable>
                 {/* Delete Task */}
                 <Pressable onPress={handleDeleteTask} >
                     <View style={{
-                        width: 20, height: 20, borderRadius: 2,
-                        backgroundColor: colors.notDone
+                        width: _btnStyle.size, height: _btnStyle.size,
+                        justifyContent: 'center'
                     }}
                     >
-                        <Text
-                            style={{ textAlign: 'center' }}
-                        >X</Text>
+                        <Text style={{
+                            textAlign: 'center',
+                        }}
+                        >
+                            <Ionicons
+                                name="trash-outline"
+                                size={_btnStyle.size}
+                                color={colors.textWhite}
+                            />
+                        </Text>
                     </View>
                 </Pressable>
             </View>

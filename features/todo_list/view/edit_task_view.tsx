@@ -53,13 +53,29 @@ export function EditTaskView ( edit: IEditTaskView ) {
                 >
                     <Text style={{
                         color: colors.textWhite,
-                        fontSize: 20, textAlign: "center",
-                    }}> Edit task: {`\n ${edit?.item.name}`}</Text>
+                        fontSize: 20, textAlign: "left",
+                    }}>
+                        Edit:
+                    </Text>
+                    <Text style={{
+                        color: colors.background, textAlign: 'center',
+                        fontSize: 24,
+                        padding: 5,
+                        borderRadius: 1,
+                        borderBottomWidth: 2,
+                        borderBottomColor: colors.background
+                    }}>
+                        {`${edit?.item.name}`}
+                    </Text>    
 
                     <TextInputComponent
                         placeholder={`new task name...`}
                         readValue={(value: string)=>{ setText(value) }}
                         setText={text}
+                        onSubmit={(value)=> {
+                            setText(value)
+                            handleSaveEdition()
+                        }}
                     />
                     
                     <Button

@@ -6,6 +6,7 @@ type ITextInput = {
     placeholder: string,
     readValue: (value: string) => void,
     setText: string,
+    onSubmit: (value: string) => void
 }
 
 export function TextInputComponent ( input: ITextInput ) {
@@ -27,15 +28,20 @@ export function TextInputComponent ( input: ITextInput ) {
         <TextInput
             style={{
                 maxHeight: 40,
-                padding: 10, margin: 'auto',
+                padding: 10,
                 borderRadius: 10, borderWidth: 0,
                 flexGrow: 1,
                 backgroundColor: colors.background, outlineColor: colors.background,
-                color: colors.textWhite
+                color: colors.textWhite,
             }}
             placeholder={input.placeholder}
             onChangeText={(value) => setText(value)}
             value={text}
+            returnKeyType="done"
+            onSubmitEditing={()=>{
+                input.onSubmit(text)
+                setText('')
+            }}
         />
     )
 }
