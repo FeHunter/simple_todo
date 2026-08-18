@@ -16,8 +16,6 @@ export function TodoView () {
     const task_on_edit = view_model.editTask
 
     const [text, setText] = useState('')
-    const [filtersModal, setFiltersModal] = useState(false)
-
     
     // Model-View handle
     const handleAddTask = () => {
@@ -84,10 +82,7 @@ export function TodoView () {
                     </Pressable>
 
                     {/* Filters */}
-                    <TaskFilters
-                        modalView={filtersModal}
-                        toggleModal={()=>{ setFiltersModal(!filtersModal) }}
-                    />
+                    <TaskFilters />
 
                 </View>
 

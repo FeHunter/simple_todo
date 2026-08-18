@@ -1,21 +1,16 @@
 import colors from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { ButtonFilter } from "../components/button_filter";
 
 type ITaskFilters = {
-    modalView: boolean,
-    toggleModal: ()=>void
+   
 }
 
 export function TaskFilters ( taskfilter : ITaskFilters ) {
 
-    const [modalView, setModalView] = useState(taskfilter.modalView)
-
-    useEffect(()=>{
-        setModalView(taskfilter.modalView)
-    },[taskfilter.modalView])
+    const [modalView, setModalView] = useState(false)
 
     const handleModalView = () => {
         setModalView(!modalView)
@@ -33,7 +28,7 @@ export function TaskFilters ( taskfilter : ITaskFilters ) {
                 onPress={handleModalView}
             >
                 <Ionicons
-                    name="settings"
+                    name="funnel-sharp"
                     size={35}
                     color={colors.segundary}
                 />
