@@ -1,4 +1,5 @@
 import colors from "@/constants/colors"
+import { TaskFilters } from "@/features/task_filters/view/task_filters_view"
 import { useState } from "react"
 import { FlatList, Pressable, Text, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
@@ -15,6 +16,7 @@ export function TodoView () {
     const task_on_edit = view_model.editTask
 
     const [text, setText] = useState('')
+    const [filtersModal, setFiltersModal] = useState(false)
 
     
     // Model-View handle
@@ -46,16 +48,18 @@ export function TodoView () {
             {/* Header */}
             <View
                 style={{
-                    alignItems: 'center', justifyContent: 'space-between',
+                    zIndex: 1,
                     width: '90%',
                     rowGap: 30,
-                    paddingTop: 30,
+                    paddingTop: 10,
                 }}
             >
                 <View style={{
                     flexDirection: 'row',
-                    flexGrow: 1, gap: 10,
-                    width: '100%'
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexGrow: 1, gap: 20,
+                    width: '100%',
                 }} >
 
                     <TextInputComponent
@@ -78,6 +82,12 @@ export function TodoView () {
                     >
                         <Text style={{ color: colors.textWhite, fontSize: 20, paddingBottom: 5 }} >+</Text>
                     </Pressable>
+
+                    {/* Filters */}
+                    <TaskFilters
+                        modalView={filtersModal}
+                        toggleModal={()=>{ setFiltersModal(!filtersModal) }}
+                    />
 
                 </View>
 
