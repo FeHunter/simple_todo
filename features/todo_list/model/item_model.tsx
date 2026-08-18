@@ -4,10 +4,4 @@ export class Task {
         public name: string,
         public done: boolean,
     ) {}
-
-    toggleDone () { }
-
-    deleteTask () {}
-
-    editTask (task: Task) {}
 }

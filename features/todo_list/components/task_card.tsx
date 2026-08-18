@@ -3,20 +3,27 @@ import { Ionicons } from '@expo/vector-icons';
 import { Pressable, Text, View } from "react-native";
 import { Task } from "../model/item_model";
 
-export function TaskCardComponent ( item : Task ) {
+type ITaskCard = {
+    item: Task,
+    toggleDone: ()=> void,
+    deleteTask: ()=> void,
+    editTask: ()=> void,
+}
+
+export function TaskCardComponent ( card : ITaskCard ) {
 
     const _btnStyle = {
         size: 30
     }
 
     const handleToggleIsDone = () => {
-        item.toggleDone()
+        card.toggleDone()
     }
     const handleEditTask = () => {
-        item.editTask(item)
+        card.editTask()
     }
     const handleDeleteTask = () => {
-        item.deleteTask()
+        card.deleteTask()
     }
 
     return (
@@ -48,7 +55,7 @@ export function TaskCardComponent ( item : Task ) {
                         textAlignVertical: 'center',
                     }}
                 >
-                    {item.name}
+                    {card.item.name}
                 </Text>
             </Pressable>
 
@@ -68,7 +75,7 @@ export function TaskCardComponent ( item : Task ) {
                         <Ionicons
                             name="checkmark-circle-sharp"
                             size={_btnStyle.size}
-                            color={item.done ? colors.done : colors.notDone}
+                            color={card.item.done ? colors.done : colors.notDone}
                         />
                     </View>
                 </Pressable>

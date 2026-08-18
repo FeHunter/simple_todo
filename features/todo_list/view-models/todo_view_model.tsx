@@ -82,8 +82,8 @@ export function useTodoViewModel () {
         }
     }
 
-    const setTaskToEdit = (task: Task) => {
-        setEditTask(task)
+    const setTaskToEdit = (task: Task | undefined) => {
+        if (task) setEditTask(task)
     }
 
     const setEditTaskNull = () => {
