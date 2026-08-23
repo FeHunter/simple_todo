@@ -47,9 +47,6 @@ export function DoneTasksView () {
                                 id={item.id}
                                 name={item.name}
                                 done={item.done}
-                                toggleDone={()=>{ }}
-                                deleteTask={()=>{ }}
-                                editTask={()=>{  }}
                             />
                         )}
                     />

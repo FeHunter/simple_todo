@@ -1,18 +1,24 @@
-import colors from "@/constants/colors"
-import { TaskFilters } from "@/features/task_filters/view/task_filters_view"
 import { useState } from "react"
 import { FlatList, Pressable, Text, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
+
+// components
+import colors from "@/constants/colors"
 import { TaskCardComponent } from "../components/task_card"
 import { TextInputComponent } from "../components/text_input"
+// model
 import { Task } from "../model/item_model"
-import { useTodoViewModel } from "../view-models/todo_view_model"
+// view
 import { EditTaskView } from "./edit_task_view"
+// viewModel
+import { TaskFilterButtonView } from "@/features/task_filters/view/task_filter_btn_view"
+import { useTodoViewModel } from "../view-models/todo_view_model"
+
 
 export function TodoView () {
 
     const view_model = useTodoViewModel()
-    const task_list = view_model.list
+    const task_list = view_model.filteredList || view_model.list
     const task_on_edit = view_model.editTask
 
     const [text, setText] = useState('')
@@ -82,7 +88,7 @@ export function TodoView () {
                     </Pressable>
 
                     {/* Filters */}
-                    <TaskFilters />
+                    <TaskFilterButtonView />
 
                 </View>
 

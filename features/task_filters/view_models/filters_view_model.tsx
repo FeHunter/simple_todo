@@ -20,7 +20,9 @@ export function useTaskFiltersViewModel () {
 
     const LoadFilters = async () => {
         const data = await repository.Load()
-        setActivedFilters(data)
+        if (data){
+            setActivedFilters(data)
+        }
     }
 
     const AddFilterToggle = (itemId: string) => {

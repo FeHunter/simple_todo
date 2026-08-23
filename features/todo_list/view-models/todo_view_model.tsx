@@ -1,21 +1,27 @@
 import { useEffect, useState } from "react"
 import { Task } from "../model/item_model"
+
+// repository
 import { TodoRepository } from "../repository/todo_repository"
+// services
+import { TodoFiltersService } from "../services/todo_filters_service"
 
 
 export function useTodoViewModel () {
 
     const repository = TodoRepository()
+
+    const services = TodoFiltersService()
     
     const [loading, setLoading] = useState(false)
     const [list, setList] = useState<Task[]>([])
+    const [filteredList, setFilteredList] = useState<Task[]>([])
     const [listCompletedTasks, setListCompletedTasks] = useState<Task[]>([])
     const [editTask, setEditTask] = useState<Task>()
 
 
     useEffect(()=>{
         loadTaks();
-        getTasksCompleted();
     },[])
     useEffect(()=>{
         if (loading){
@@ -23,8 +29,22 @@ export function useTodoViewModel () {
                 setLoading(false)
             }, 200);
         }
+
+        // Apply filter to task list
+        applyFilters();
+
     },[loading])
 
+    
+    const applyFilters = async () => {
+        const filtered_list = await services.ApplyFilters(list)
+        if (filtered_list.length > 0) {
+            setFilteredList(filtered_list)
+            setLoading(true)
+        }else {
+            loadTaks()
+        }
+    }
     
     const loadTaks = async () => {
         try {
@@ -109,19 +129,15 @@ export function useTodoViewModel () {
     }
 
     const getTasksCompleted = async () => {
-        try {
-            setLoading(true)
-            const data = await repository.getTasks()
-            const completed_tasks = data.filter((item : Task) => item.done == true)
-            setListCompletedTasks(completed_tasks)
-        }finally {
-            setLoading(false)
-        }
+        const filtered = services.GetCompletedTasksFilter(list)
+        setListCompletedTasks(filtered)
+        console.log('get completed tasks')
     }
 
     return {
         loading,
         list,
+        filteredList,
         listCompletedTasks,
         editTask,
         addToList,

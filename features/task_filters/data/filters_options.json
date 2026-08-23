@@ -1,8 +1,13 @@
 [
     {
-        "id": "all",
-        "label": "Todos",
-        "icon": "list-sharp"
+        "id": "newest",
+        "label": "Recentes",
+        "icon": "calendar-outline"
+    },
+    {
+        "id": "oldest",
+        "label": "Antigos",
+        "icon": "calendar"
     },
     {
         "id": "completed",
@@ -12,6 +17,6 @@
     {
         "id": "pending",
         "label": "Pendentes",
-        "icon": "today"
+        "icon": "timer-sharp"
     }
 ]
