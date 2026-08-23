@@ -1,8 +1,15 @@
 import colors from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { ComponentProps, useState } from "react";
+import { FlatList, Pressable, Text, View } from "react-native";
 import { ButtonFilter } from "../components/button_filter";
+
+// data
+import filtersOptions from '../data/filters_options.json';
+// Model
+import { FiltersOptions } from "../model/filters_options_model";
+// ViewModel
+import { useTaskFiltersViewModel } from "../view_models/filters_view_model";
 
 type ITaskFilters = {
    
@@ -10,10 +17,18 @@ type ITaskFilters = {
 
 export function TaskFilters ( taskfilter : ITaskFilters ) {
 
+    const view_model = useTaskFiltersViewModel()
+    const filters = filtersOptions
+
     const [modalView, setModalView] = useState(false)
+    const activedFilters = view_model.activedFilters
 
     const handleModalView = () => {
         setModalView(!modalView)
+    }
+
+    const handleAddFilter = (itemId: string) => {
+        view_model.AddFilterToggle(itemId)
     }
 
     return (
@@ -78,19 +93,19 @@ export function TaskFilters ( taskfilter : ITaskFilters ) {
                         width: '90%',
                         gap: 10,
                     }}>
-
-                        <ButtonFilter
-                            label={'Completed tasks'}
-                            iconType={"checkmark-done"}
-                            onPress={()=>{  }}
+                        <FlatList
+                            data={filters}
+                            keyExtractor={(_, index) => index.toString()}
+                            renderItem={({ item }: { item: FiltersOptions }) => (
+                                 <ButtonFilter
+                                    id={item.id}
+                                    label={item.label}
+                                    iconType={item.icon as ComponentProps<typeof Ionicons>["name"]}
+                                    actived={activedFilters.includes(item.id)}
+                                    onPress={()=>{ handleAddFilter(item.id) }}
+                                />
+                            )}
                         />
-
-                        <ButtonFilter
-                            label={'recently added'}
-                            iconType={"calendar-clear"}
-                            onPress={()=>{  }}
-                        />
-
                     </View> 
 
                 </View>

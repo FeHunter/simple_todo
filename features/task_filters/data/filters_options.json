@@ -1,0 +1,17 @@
+[
+    {
+        "id": "all",
+        "label": "Todos",
+        "icon": "list-sharp"
+    },
+    {
+        "id": "completed",
+        "label": "Concluídos",
+        "icon": "checkmark-done"
+    },
+    {
+        "id": "pending",
+        "label": "Pendentes",
+        "icon": "today"
+    }
+]
